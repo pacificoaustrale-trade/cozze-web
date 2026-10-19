@@ -1,0 +1,9 @@
+/* Estilos base. El diseño usa estilos en línea (fiel al borrador); aquí van los globales. */
+html{scroll-behavior:smooth;scroll-padding-top:12px}
+body{margin:0}
+*{box-sizing:border-box}
+img{max-width:100%}
+a{color:#1F7C61}a:hover{color:#14533F}
+summary::-webkit-details-marker{display:none}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #6CC3DE;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
