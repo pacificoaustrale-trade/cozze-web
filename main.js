@@ -13,3 +13,22 @@ if (f) f.addEventListener('submit', function (e) {
   m.textContent = 'Versión de prueba: el formulario todavía no envía mensajes.';
   f.reset();
 });
+
+// Menú móvil (hamburguesa): abre/cierra el menú principal
+var navToggle = document.querySelector('.nav-toggle');
+var navMenu = document.getElementById('menu-principal');
+function setNav(open) {
+  navMenu.classList.toggle('is-open', open);
+  navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  navToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+}
+if (navToggle && navMenu) {
+  navToggle.addEventListener('click', function () { setNav(!navMenu.classList.contains('is-open')); });
+  document.addEventListener('click', function (e) {
+    if (!navMenu.classList.contains('is-open')) return;
+    if (e.target.closest('#menu-principal a') || (!navMenu.contains(e.target) && !navToggle.contains(e.target))) setNav(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && navMenu.classList.contains('is-open')) { setNav(false); navToggle.focus(); }
+  });
+}
