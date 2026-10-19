@@ -51,3 +51,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 }
 @media (max-width:374px){.dato-clave{font-size:18px !important}}
 @media (max-width:340px){.dato-clave{font-size:16px !important}}
+
+/* Móvil: rango de ley de las tarjetas Cu, Au y Ag en una sola línea (el salto aplica solo en escritorio) */
+@media (max-width:700px){
+  .ley-br{display:none}
+}
