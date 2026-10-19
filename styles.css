@@ -36,3 +36,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   .footer-links{justify-content:center;text-align:center;gap:10px 20px !important}
   .footer-links-title{width:100%}
 }
+
+/* Móvil: vista al 90%, botones de portada en una fila e imagen de Servicios del alto de las de La Planta */
+@media (max-width:700px){
+  html{zoom:.9}
+  .hero-ctas{flex-wrap:nowrap !important}
+  .hero-ctas a{padding-left:18px !important;padding-right:18px !important;white-space:nowrap}
+  .servicios-img{height:260px !important;min-height:0 !important}
+}
