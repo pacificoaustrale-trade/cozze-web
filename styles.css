@@ -44,3 +44,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
   .hero-ctas a{padding-left:18px !important;padding-right:18px !important;white-space:nowrap}
   .servicios-img{height:260px !important;min-height:0 !important}
 }
+
+/* Móvil: datos clave de la portada en una sola línea */
+@media (max-width:700px){
+  .dato-clave{font-size:20px !important;white-space:nowrap}
+}
+@media (max-width:374px){.dato-clave{font-size:18px !important}}
+@media (max-width:340px){.dato-clave{font-size:16px !important}}
