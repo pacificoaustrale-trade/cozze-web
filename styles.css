@@ -61,3 +61,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 @media (max-width:700px){
   .footer-privacy{margin-left:0 !important;width:100%;margin-top:6px}
 }
+
+/* Móvil: separación del título "Definamos juntos..." respecto de la tarjeta Compra de Mineral */
+@media (max-width:700px){
+  .plan-titulo{padding-top:16px}
+}
