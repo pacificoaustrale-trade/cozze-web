@@ -45,7 +45,7 @@ function translate(html) {
   return html.replace(/(<(script|style)\b[\s\S]*?<\/\2>)|(<[^>]+>)|([^<]+)/g, (m, block, _n, tag, txt) => {
     if (block) return block;
     if (txt) return tr(txt);
-    const isMeta = /^<meta\s+(name="description"|property="og:(title|description)")/.test(tag);
+    const isMeta = /^<meta\s+(name="description"|property="og:(title|description|image:alt)"|name="twitter:(title|description)")/.test(tag);
     return tag.replace(/\s(alt|aria-label|title|placeholder|content)="([^"]*)"/g, (a, name, val) => {
       if (name === 'content' && !isMeta) return a;
       return a.replace(`"${val}"`, `"${tr(val)}"`);
@@ -67,6 +67,8 @@ function swapLangSwitch(html, esHref) {
 
 function commonPaths(html) {
   html = replaceOnce(html, '<html lang="es">', '<html lang="en">');
+  html = replaceOnce(html, '<meta property="og:locale" content="es_CL">\n<meta property="og:locale:alternate" content="en_US">',
+    '<meta property="og:locale" content="en_US">\n<meta property="og:locale:alternate" content="es_CL">');
   html = replaceOnce(html, 'href="assets/favicon.svg"', 'href="/assets/favicon.svg"');
   html = replaceOnce(html, 'href="styles.css"', 'href="/styles.css"');
   html = replaceOnce(html, 'src="main.js"', 'src="/main.js"');
