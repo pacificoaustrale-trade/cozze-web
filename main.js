@@ -5,14 +5,73 @@ document.addEventListener('click', function (e) {
   });
 });
 
-// Formulario de contacto: PRUEBA (aún sin envío real)
-var f = document.getElementById('form-contacto');
-if (f) f.addEventListener('submit', function (e) {
-  e.preventDefault();
-  var m = document.getElementById('form-msg');
-  m.textContent = 'Versión de prueba: el formulario todavía no envía mensajes.';
-  f.reset();
+// Textos según el idioma de la página (<html lang="es|en">)
+var lang = document.documentElement.lang === 'en' ? 'en' : 'es';
+var T = {
+  es: {
+    ok: 'Gracias, recibimos tu consulta. Te contactaremos a la brevedad.',
+    error: 'No pudimos enviar tu consulta. Escríbenos a contacto@cozze.cl.',
+    sending: 'Enviando…',
+    menuOpen: 'Abrir menú',
+    menuClose: 'Cerrar menú'
+  },
+  en: {
+    ok: 'Thank you, we have received your inquiry. We will contact you shortly.',
+    error: 'We could not send your inquiry. Please email us at contacto@cozze.cl.',
+    sending: 'Sending…',
+    menuOpen: 'Open menu',
+    menuClose: 'Close menu'
+  }
+}[lang];
+
+// Selector de idioma: conserva el #ancla al cambiar a la página equivalente
+document.querySelectorAll('[data-lang-switch]').forEach(function (a) {
+  a.addEventListener('click', function () {
+    if (location.hash) a.setAttribute('href', a.getAttribute('href').split('#')[0] + location.hash);
+  });
 });
+
+// Formulario de contacto: envío real a /enviar.php
+var f = document.getElementById('form-contacto');
+if (f) {
+  var loadedAt = Date.now();
+  if (f.elements.ts) f.elements.ts.value = String(loadedAt);
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var m = document.getElementById('form-msg');
+    var btn = f.querySelector('button[type="submit"]');
+    var label = btn.textContent;
+    var data = new FormData(f);
+    data.append('elapsed', String(Date.now() - loadedAt));
+    btn.disabled = true;
+    btn.textContent = T.sending;
+    m.style.color = '#1F7C61';
+    m.textContent = '';
+    fetch('/enviar.php', { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+      .then(function (r) {
+        return r.json().catch(function () { return { ok: false }; });
+      })
+      .then(function (res) {
+        if (res && res.ok) {
+          m.textContent = T.ok;
+          f.reset();
+          loadedAt = Date.now();
+          if (f.elements.ts) f.elements.ts.value = String(loadedAt);
+        } else {
+          m.style.color = '#B3261E';
+          m.textContent = (res && res.message) || T.error;
+        }
+      })
+      .catch(function () {
+        m.style.color = '#B3261E';
+        m.textContent = T.error;
+      })
+      .then(function () {
+        btn.disabled = false;
+        btn.textContent = label;
+      });
+  });
+}
 
 // Menú móvil (hamburguesa): abre/cierra el menú principal
 var navToggle = document.querySelector('.nav-toggle');
@@ -20,7 +79,7 @@ var navMenu = document.getElementById('menu-principal');
 function setNav(open) {
   navMenu.classList.toggle('is-open', open);
   navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  navToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  navToggle.setAttribute('aria-label', open ? T.menuClose : T.menuOpen);
 }
 if (navToggle && navMenu) {
   navToggle.addEventListener('click', function () { setNav(!navMenu.classList.contains('is-open')); });

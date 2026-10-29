@@ -1,0 +1,9 @@
+{
+  "name": "cozze-web",
+  "private": true,
+  "description": "Sitio web COZZE MINERÍA (estático + enviar.php). Sin dependencias.",
+  "scripts": {
+    "i18n": "node scripts/i18n.mjs",
+    "build": "node scripts/build.mjs"
+  }
+}

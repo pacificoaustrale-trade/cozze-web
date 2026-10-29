@@ -1,0 +1,10 @@
+# Vercel es solo el entorno de pruebas (sin PHP): no publicar el código PHP,
+# la configuración de Apache ni los archivos de build/desarrollo.
+enviar.php
+deploy
+dist
+cozze-dist.zip
+scripts
+i18n
+package.json
+README.md
